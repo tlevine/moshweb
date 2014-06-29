@@ -927,7 +927,7 @@ remote servers "feel" more like the local machine!</p>
       </p>
   </dd>
 
-  <dt>Q: How do I run the mosh client and server separately?</dt>
+  <dt id="client-server-separately">Q: How do I run the mosh client and server separately?</dt>
 
   <dd><p>If the <code>mosh</code> wrapper script isn't working for you, you can try running
     the <code>mosh-client</code> and <code>mosh-server</code> programs separately to
@@ -968,6 +968,13 @@ server's IP address with "host remotehost".</p>
   <dd><p>First, you have to get SSH working. Find some other way of logging in to the remote server, probably by getting on the internet somewhere else, and add the following line to your <code>sshd_config</code></p><pre>Port 443</pre>
   <p>(You can, of course, use a different port.)</p>
   <p>Once you have edited the file, restart <code>sshd</code> on the server. You will now be to log in over SSH from your restricted network; either add <code>Port 443</code> to your <code>~/.ssh/config</code> or use the <code>-p 443</code> flag.</p>
+  <p>Next, you have to get mosh working. If you find a port above 1024 that your local network does not block, you can just do this.</p>
+<pre>$ mosh -p 1025 --ssh="ssh -p 443" remotehostname</pre>
+  <p>If you can't find such a port, you can forward ports on the server. You are going to run <code>mosh-server</code> on the remote host, forward another not-blocked port (maybe 80) to the mosh port (maybe 60000), and then run mosh-client from the local host with the not-blocked port. Run the following command from the remote server to set up the port forward.</p><pre>$ sudo iptables -A PREROUTING -t nat -i eth0 -p udp --dport 80 -j REDIRECT --to-port 60000 # XXX I'm having trouble with this step.</pre>
+  <p>Other approaches for forwarding ports are discussed <a href="http://stackoverflow.com/questions/413807/is-there-a-way-for-non-root-processes-to-bind-to-privileged-ports-1024-on-l">here</a>.</p>
+  <p>Next, run <code>mosh-server</code> on the server.</p><pre>$ mosh-server new -p 60000</pre>
+  <p>Finally, copy the <code>MOSH_KEY</code>, as explained in <a href="#client-server-separately">an earlier question</a>, and run <code>mosh-client</code> with the lower port.</p><pre>$ MOSH_KEY=key mosh-client remote-IP 80</pre>
+
 </dd>
 
 
