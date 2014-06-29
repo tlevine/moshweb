@@ -963,6 +963,15 @@ server's IP address with "host remotehost".</p>
 
   <dd><p>This <a href="https://github.com/keithw/mosh/pull/129">bug</a> is fixed in Mosh 1.2. Thanks to Ed Schouten and Peter Jeremy for tracking this down.</p></dd>
 
+  <dt>Q: I'm behind a network that blocks ports 22 and 60000+. What do I do?</dt>
+
+  <dd><p>First, you have to get SSH working. Find some other way of logging in to the remote server, probably by getting on the internet somewhere else, and add the following line to your <code>sshd_config</code></p><pre>Port 443</pre>
+  <p>(You can, of course, use a different port.)</p>
+  <p>Once you have edited the file, restart <code>sshd</code> on the server. You will now be to log in over SSH from your restricted network; either add <code>Port 443</code> to your <code>~/.ssh/config</code> or use the <code>-p 443</code> flag.</p>
+</dd>
+
+
+
   <dt>Q: How do I contribute to mosh?</dt>
 
   <dd><p>We welcome your contribution! Please join us in <code>#mosh</code> channel on <a href="http://freenode.net/">Freenode</a> IRC, <a href="https://github.com/keithw/mosh">visit us on GitHub</a>,
