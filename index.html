@@ -963,7 +963,7 @@ server's IP address with "host remotehost".</p>
 
   <dd><p>This <a href="https://github.com/keithw/mosh/pull/129">bug</a> is fixed in Mosh 1.2. Thanks to Ed Schouten and Peter Jeremy for tracking this down.</p></dd>
 
-  <dt>Q: I'm behind a network that blocks ports 22 and 60000+. What do I do?</dt>
+  <dt id="port-blocking">Q: I'm behind a network that blocks ports 22 and 60000+. What do I do?</dt>
 
   <dd><p>First, you have to get SSH working. Find some other way of logging in to the remote server, probably by getting on the internet somewhere else, and add the following line to your <code>sshd_config</code></p><pre>Port 443</pre>
   <p>(You can, of course, use a different port.)</p>
